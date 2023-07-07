@@ -114,3 +114,35 @@ extension Bird: Providable {
 
 You will need to add any custom types to your project.
 Project > Target > Info > ExportedTypeIdentifiers
+
+### Adding drag and drop operations
+
+Add a drag option to a view like this:
+```swift
+.onDrag { bird.provider }
+```
+
+And a drop option like this:
+```swift
+.onDrop(of: Bird.readableTypes) { providers, location in
+  providers.loadItems(Bird.self) { bird, error in
+    if let bird {
+        birds.append(bird)
+    }
+  }
+  return true
+}
+```
+
+And even an insert option like this:
+```swift
+.onInsert(of: Bird.readableTypes) { index, providers in
+  providers.loadItems(Bird.self) { bird, error in
+    if let bird {
+      birds.insert(bird, at: index)
+    }
+  }
+}
+```
+
+
