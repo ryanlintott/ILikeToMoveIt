@@ -7,19 +7,28 @@
 
 import SwiftUI
 
-public enum AccessibilityMoveAction: Identifiable, Hashable, Equatable {
+
+/// Options for moving an item up and down a SwiftUI list using accessibility actions.
+public enum AccessibilityMoveAction: Identifiable, Hashable {
+    /// Move up by some number of spaces.
     case up(Int = 1)
+    /// Move down by some number of spaces.
     case down(Int = 1)
+    /// Move to the top of the list.
     case toTop
+    /// Move to the bottom of the list.
     case toBottom
 
     public var id: Self { self }
 }
 
 public extension AccessibilityMoveAction {
+    /// Move up by one.
     static let up: Self = .up()
+    /// Move down by one.
     static let down: Self = .down()
 
+    /// Name of the accessibility action
     var name: String {
         switch self {
         case .up(by: 1):
@@ -38,19 +47,29 @@ public extension AccessibilityMoveAction {
     }
 }
 
+/// An item and a move action to be applied to that item in a list.
 public struct AccessibilityMove<Item: Hashable>: Hashable {
+    /// Item to move
     public let item: Item
+    /// Move action to apply to item.
     public let action: AccessibilityMoveAction
 }
 
-public class AccessibilityMoveManager<Item: Hashable>: ObservableObject {
+/// An observable object that holds information about the current accessibility move and focus.
+public class AccessibilityMoveController<Item: Hashable>: ObservableObject {
+    /// The current accessibility item to focus on.
     @Published public var focus: Item? = nil
+    /// The current accessibility move to perform.
     @Published public var move: AccessibilityMove<Item>? = nil
 }
 
+/// A View Modifier that adds accessibility move actions that allow a user to move the item up and down in a list.
+///
+/// Requires a single `AccessibilityMoveableListViewModifier` on a parent view to apply accessibility move actions.
 @available(iOS 15, macOS 12, *)
 struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifier {
-    @EnvironmentObject var accessibilityMoveManager: AccessibilityMoveManager<Item>
+    @EnvironmentObject var accessibilityMoveManager: AccessibilityMoveController<Item>
+    /// Focus state can only be managed inside a single SwiftUI View so it lives on each item and gets updated via the environment object.
     @AccessibilityFocusState var isFocused: Bool
     
     let item: Item
@@ -80,16 +99,38 @@ struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifi
 
 @available(iOS 15, macOS 12, *)
 public extension View {
+    /// Adds accessibility move actions that allow a user to move the item up and down in a list.
+    ///
+    /// Requires a single `.accessibilityMoveableList` modifier applied to a parent view (typically `List`)
+    /// - Parameters:
+    ///   - item: The item to move.
+    ///   - actions: An array of move actions made available to the user.
+    /// - Returns: A view of an item that can be moved up and down in a list via accessibility actions.
     func accessibilityMoveable<Item: Hashable>(_ item: Item, actions: [AccessibilityMoveAction] = [.up, .down, .toTop, .toBottom]) -> some View {
         modifier(AccessibilityMoveableViewModifier(item: item, actions: actions))
     }
     
-    func iLikeTo<It: Hashable>(move it: It, _ actions: [AccessibilityMoveAction] = [.up, .down, .toTop, .toBottom]) -> some View {
+    /// Adds accessibility move actions that allow a user to move the item up and down in a list.
+    ///
+    /// Requires a single `.accessibilityMoveableList` modifier applied to a parent view (typically `List`)
+    /// Alternatively-named function for `accessibilityMoveable`
+    /// - Parameters:
+    ///   - it: The item to move.
+    ///   - actions: An array of move actions made available to the user.
+    /// - Returns: A view of an item that can be moved up and down in a list via accessibility actions.
+    func iLikeToMove<It: Hashable>(_ it: It, actions: [AccessibilityMoveAction] = [.up, .down, .toTop, .toBottom]) -> some View {
         accessibilityMoveable(it, actions: actions)
     }
 }
 
 public extension View {
+    /// Adds accessibility move actions that allow a user to move the item up and down in a list for iOS 15+ and macOS 12+
+    ///
+    /// Requires a single `.accessibilityMoveableList` modifier on a parent view to apply accessibility move actions.
+    /// - Parameters:
+    ///   - item: The item to move.
+    ///   - actions: An array of move actions made available to the user.
+    /// - Returns: A view of an item that can be moved up and down in a list via accessibility actions for iOS 15+ and macOS 12+.
     func accessibilityMoveableIfAvailable<Item: Hashable>(_ item: Item, actions: [AccessibilityMoveAction] = [.up, .down, .toTop, .toBottom]) -> some View {
         if #available(iOS 15, macOS 12, *) {
             return accessibilityMoveable(item, actions: actions)
@@ -99,10 +140,11 @@ public extension View {
     }
 }
 
+/// A View Modifier that applies accessibility move actions from child views that use `AccessibilityMoveableViewModifier`
 @available(iOS 15, macOS 12, *)
 struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
     /// Stores the next accessibility move and the focused item
-    @StateObject var accessibilityMoveManager: AccessibilityMoveManager<Item> = .init()
+    @StateObject var accessibilityMoveManager: AccessibilityMoveController<Item> = .init()
     
     @Binding var items: [Item]
     
@@ -190,12 +232,22 @@ struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
 
 @available(iOS 15, macOS 12, *)
 public extension View {
+    /// Applies accessibility move actions from child views that use `accessibilityMoveable`
+    /// - Parameters:
+    ///   - items: Array of items that will be modified by accessibility move actions.
+    ///   - label: Optional keypath to the name of an item. If used, the names of items that are directly below a move up or above a move down will be annouced after a move.
+    /// - Returns: A view that applies accessibility move actions from child views.
     func accessibilityMoveableList<Item: Hashable>(_ items: Binding<Array<Item>>, label: KeyPath<Item, String>? = nil) -> some View {
         modifier(AccessibilityMoveableListViewModifier(items: items, label: label))
     }
 }
 
 public extension View {
+    /// Applies accessibility move actions from child views that use `accessibilityMoveable` for iOS 15+ and macOS 12+
+    /// - Parameters:
+    ///   - items: Array of items that will be modified by accessibility move actions.
+    ///   - label: Optional keypath to the name of an item. If used, the names of items that are directly below a move up or above a move down will be annouced after a move.
+    /// - Returns: A view that applies accessibility move actions from child views for iOS 15+ and macOS 12+
     func accessibilityMoveableListIfAvailable<Item: Hashable>(_ items: Binding<Array<Item>>, label: KeyPath<Item, String>? = nil) -> some View {
         if #available(iOS 15, macOS 12, *) {
             return accessibilityMoveableList(items, label: label)
