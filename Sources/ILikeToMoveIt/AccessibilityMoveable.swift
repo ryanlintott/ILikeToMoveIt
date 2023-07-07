@@ -38,30 +38,19 @@ public extension AccessibilityMoveAction {
     }
 }
 
-public struct AccessibilityFocusedItemKey: EnvironmentKey {
-    public static let defaultValue: (any Hashable)? = nil
+public struct AccessibilityMove<Item: Hashable>: Hashable {
+    public let item: Item
+    public let action: AccessibilityMoveAction
 }
 
-public struct AccessibilityMoveKey: EnvironmentKey {
-    public static let defaultValue: ((any Hashable, AccessibilityMoveAction) -> Void)? = nil
-}
-
-public extension EnvironmentValues {
-    var accessibilityFocusedItem: (any Hashable)? {
-        get { self[AccessibilityFocusedItemKey.self] }
-        set { self[AccessibilityFocusedItemKey.self] = newValue }
-    }
-    
-    var accessibilityMove: ((_ item: any Hashable, _ action: AccessibilityMoveAction) -> Void)? {
-        get { self[AccessibilityMoveKey.self] }
-        set { self[AccessibilityMoveKey.self] = newValue }
-    }
+public class AccessibilityMoveManager<Item: Hashable>: ObservableObject {
+    @Published public var focus: Item? = nil
+    @Published public var move: AccessibilityMove<Item>? = nil
 }
 
 @available(iOS 15, macOS 12, *)
 struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifier {
-    @Environment(\.accessibilityFocusedItem) var accessibilityFocusedItem
-    @Environment(\.accessibilityMove) var accessibilityMove
+    @EnvironmentObject var accessibilityMoveManager: AccessibilityMoveManager<Item>
     @AccessibilityFocusState var isFocused: Bool
     
     let item: Item
@@ -69,20 +58,22 @@ struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifi
     
     func body(content: Content) -> some View {
         content
-            .accessibilityFocused($isFocused)
             .background {
                 ZStack {
                     ForEach(actions) { action in
                         Color.clear
                             .accessibilityAction(named: action.name) {
-                                accessibilityMove?(item, action)
+                                accessibilityMoveManager.move = .init(item: item, action: action)
                             }
                     }
                 }
             }
             .accessibilityElement(children: .combine)
-            .onChange(of: accessibilityFocusedItem as? Item) { newValue in
-                isFocused = newValue == item
+            .accessibilityFocused($isFocused)
+            .onReceive(accessibilityMoveManager.$focus) { newValue in
+                if newValue == item {
+                    isFocused = true
+                }
             }
     }
 }
@@ -98,10 +89,20 @@ public extension View {
     }
 }
 
+public extension View {
+    func accessibilityMoveableIfAvailable<Item: Hashable>(_ item: Item, actions: [AccessibilityMoveAction] = [.up, .down, .toTop, .toBottom]) -> some View {
+        if #available(iOS 15, macOS 12, *) {
+            return accessibilityMoveable(item, actions: actions)
+        } else {
+            return self
+        }
+    }
+}
+
 @available(iOS 15, macOS 12, *)
 struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
-    /// Stores the state of the focused list item
-    @State var focus: Item? = nil
+    /// Stores the next accessibility move and the focused item
+    @StateObject var accessibilityMoveManager: AccessibilityMoveManager<Item> = .init()
     
     @Binding var items: [Item]
     
@@ -110,73 +111,80 @@ struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .environment(\.accessibilityFocusedItem, focus)
-            .environment(\.accessibilityMove) { item, action in
-                guard
-                    let item = item as? Item,
-                    let itemIndex = items.firstIndex(of: item),
-                    items.count > 1
-                else { return }
-
-                var destinationIndex: Int
-
-                switch action {
-                case let .up(distance):
-                    destinationIndex = items.index(itemIndex, offsetBy: -distance)
-                case let .down(distance):
-                    destinationIndex = items.index(itemIndex, offsetBy: distance + 1)
-                case .toTop:
-                    destinationIndex = items.startIndex
-                case .toBottom:
-                    destinationIndex = items.endIndex
-                }
-                /// Clamp destination by start and end index
-                destinationIndex = min(max(items.startIndex, destinationIndex), items.endIndex)
-
-                let thisItem = item
-                var announcement = [String]()
-
-                switch (destinationIndex, action) {
-                case (itemIndex, .up), (itemIndex, .toTop), (itemIndex + 1, .down), (itemIndex + 1, .toBottom):
-                    announcement.append("Not moved.")
-                case (itemIndex - 1, .up):
-                    announcement.append("Moved up.")
-                case (itemIndex + 2, .down):
-                    announcement.append("Moved down.")
-                case (_, .up), (_, .toTop):
-                    announcement.append("Moved up by \(itemIndex - destinationIndex).")
-                case (_, .down), (_, .toBottom):
-                    announcement.append("Moved down by \(destinationIndex - itemIndex).")
-                }
-                
-                if let label {
-                    switch (destinationIndex, action) {
-                    case (itemIndex, .up), (itemIndex, .toTop), (itemIndex + 1, .down), (itemIndex + 1, .toBottom):
-                        break
-                    case (_, .up), (_, .toTop):
-                        announcement.append("Above \(items[destinationIndex][keyPath: label]).")
-                    case (_, .down), (_, .toBottom):
-                        announcement.append("Below \(items[destinationIndex - 1][keyPath: label]).")
-                    }
-                }
-
-                switch destinationIndex {
-                case items.startIndex:
-                    announcement.append("Item at top.")
-                case items.endIndex:
-                    announcement.append("Item at bottom.")
-                default:
-                    break
-                }
-
-                if destinationIndex != itemIndex {
-                    items.move(fromOffsets: [itemIndex], toOffset: destinationIndex)
-                    /// Even though accessibility focus appears to stay on the moved item, resetting it ensures the index and associated accessibility actions are also updated.
-                    focus = thisItem
-                }
-
-                UIAccessibility.post(notification: .announcement, argument: announcement.joined(separator: " "))
+            .environmentObject(accessibilityMoveManager)
+            .onReceive(accessibilityMoveManager.$move) { newValue in
+                guard let newValue else { return }
+                move(newValue)
+                accessibilityMoveManager.move = nil
             }
+    }
+    
+    func move(_ accessibilityMove: AccessibilityMove<Item>) {
+        let item = accessibilityMove.item
+        let action = accessibilityMove.action
+        guard
+            let itemIndex = items.firstIndex(of: item),
+            items.count > 1
+        else { return }
+        
+        var destinationIndex: Int
+        
+        switch action {
+        case let .up(distance):
+            destinationIndex = items.index(itemIndex, offsetBy: -distance)
+        case let .down(distance):
+            destinationIndex = items.index(itemIndex, offsetBy: distance + 1)
+        case .toTop:
+            destinationIndex = items.startIndex
+        case .toBottom:
+            destinationIndex = items.endIndex
+        }
+        /// Clamp destination by start and end index
+        destinationIndex = min(max(items.startIndex, destinationIndex), items.endIndex)
+        
+        let thisItem = item
+        var announcement = [String]()
+        
+        switch (destinationIndex, action) {
+        case (itemIndex, .up), (itemIndex, .toTop), (itemIndex + 1, .down), (itemIndex + 1, .toBottom):
+            announcement.append("Not moved.")
+        case (itemIndex - 1, .up):
+            announcement.append("Moved up.")
+        case (itemIndex + 2, .down):
+            announcement.append("Moved down.")
+        case (_, .up), (_, .toTop):
+            announcement.append("Moved up by \(itemIndex - destinationIndex).")
+        case (_, .down), (_, .toBottom):
+            announcement.append("Moved down by \(destinationIndex - itemIndex).")
+        }
+        
+        if let label {
+            switch (destinationIndex, action) {
+            case (itemIndex, .up), (itemIndex, .toTop), (itemIndex + 1, .down), (itemIndex + 1, .toBottom):
+                break
+            case (_, .up), (_, .toTop):
+                announcement.append("Above \(items[destinationIndex][keyPath: label]).")
+            case (_, .down), (_, .toBottom):
+                announcement.append("Below \(items[destinationIndex - 1][keyPath: label]).")
+            }
+        }
+        
+        switch destinationIndex {
+        case items.startIndex:
+            announcement.append("Item at top.")
+        case items.endIndex:
+            announcement.append("Item at bottom.")
+        default:
+            break
+        }
+        
+        if destinationIndex != itemIndex {
+            items.move(fromOffsets: [itemIndex], toOffset: destinationIndex)
+            /// Even though accessibility focus appears to stay on the moved item, resetting it ensures the index and associated accessibility actions are also updated.
+            accessibilityMoveManager.focus = thisItem
+        }
+        
+        UIAccessibility.post(notification: .announcement, argument: announcement.joined(separator: " "))
     }
 }
 
@@ -190,7 +198,7 @@ public extension View {
 public extension View {
     func accessibilityMoveableListIfAvailable<Item: Hashable>(_ items: Binding<Array<Item>>, label: KeyPath<Item, String>? = nil) -> some View {
         if #available(iOS 15, macOS 12, *) {
-            return modifier(AccessibilityMoveableListViewModifier(items: items, label: label))
+            return accessibilityMoveableList(items, label: label)
         } else {
             return self
         }
