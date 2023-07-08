@@ -63,6 +63,12 @@ Example: If you have a long list and want options to move items more than one st
 .accessibilityMoveable(item, actions: [.up, .down, .up(5), .down(5), .toTop, .toBottom])
 ```
 
+When the user triggers an accessibility action the following results are reported back via a UIAccessibility announcement:
+- "moved up", "moved down", or "not moved"
+- "by [number of spaces]" if moved by more than one space.
+- "above [item label]" if moved down and "below [item label]" if moved up. Only if a label keypath is was provided.
+- "At top" or "At bottom" if at the top or bottom of the list.
+
 ### `.accessibilityMoveableList`
 This modifier applies the changes from the move actions to the list and adjusts the accessibility focus to ensure it stays on the correct item.
 
