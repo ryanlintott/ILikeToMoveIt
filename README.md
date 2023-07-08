@@ -1,4 +1,8 @@
-<img width="600" alt="iLikeToMoveIt Logo" src="https://github.com/ryanlintott/ILikeToMoveIt/assets/2143656/fb28d9e9-7e1c-4c05-9f00-130daf64a513">
+<picture>
+  <source srcset="https://github.com/ryanlintott/ILikeToMoveIt/assets/2143656/fb28d9e9-7e1c-4c05-9f00-130daf64a513" media="(prefers-color-scheme: dark)">
+  <img width="600" src="https://github.com/ryanlintott/ILikeToMoveIt/assets/2143656/e7df51f5-f74a-4d3e-ad03-a13b77c305a9">
+</picture>
+
 
 [![Swift Compatibility](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fryanlintott%2FILikeToMoveIt%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/ryanlintott/ILikeToMoveIt)
 [![Platform Compatibility](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fryanlintott%2FILikeToMoveIt%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/ryanlintott/ILikeToMoveIt)
