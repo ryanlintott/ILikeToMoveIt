@@ -5,7 +5,8 @@
 ![License - MIT](https://img.shields.io/github/license/ryanlintott/ILikeToMoveIt)
 ![Version](https://img.shields.io/github/v/tag/ryanlintott/ILikeToMoveIt?label=version)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ryanlintott/ILikeToMoveIt)
-[![Mastodon](https://img.shields.io/mastodon/follow/109355728628075113)](https://mastodon.social/@ryanlintott)
+[![Mastodon](https://img.shields.io/badge/mastodon-@ryanlintott-5c4ee4.svg?style=flat)](http://mastodon.social/@ryanlintott)
+[![Twitter](https://img.shields.io/badge/twitter-@ryanlintott-blue.svg?style=flat)](http://twitter.com/ryanlintott)
 
 # Overview
 - Add [accessible move actions](#accessibilitymoveable) to any array of items in a SwiftUI List or ForEach.
