@@ -9,7 +9,7 @@
 
 # Overview
 - Add [accessible move actions](#accessibilitymoveable) to any array of items in a SwiftUI List or ForEach.
-- Make drag and drop operations easier in iOS 14 and 15 using [`Providable`](#providable)
+- Make drag and drop operations easier for custom types in iOS 14 and 15 using [`Providable`](#providable)
 
 # DragAndDrop (example app)
 Check out the [example app](https://github.com/ryanlintott/DragAndDrop) to see how you can use this package in your iOS app.
