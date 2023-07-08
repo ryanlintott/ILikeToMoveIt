@@ -1,4 +1,4 @@
-<img width="456" alt="iLikeToMoveIt Logo" src="https://github.com/ryanlintott/ILikeToMoveIt/assets/2143656/97d6805b-bb23-4bf0-99a5-7fde798e92e6">
+<img width="600" alt="iLikeToMoveIt Logo" src="https://github.com/ryanlintott/ILikeToMoveIt/assets/2143656/fb28d9e9-7e1c-4c05-9f00-130daf64a513">
 
 A description of this package.
 
