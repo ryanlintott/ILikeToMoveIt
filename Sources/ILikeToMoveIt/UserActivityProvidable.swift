@@ -21,7 +21,7 @@ public extension UserActivityProvidable {
     init?(activity: NSUserActivity) {
         guard activity.activityType == Self.activityType else { return nil }
         guard
-            let data = activity.targetContentIdentifier?.data(using: .utf8),
+            let data = activity.persistentIdentifier?.data(using: .utf8),
             let item = try? JSONDecoder().decode(Self.self, from: data)
         else {
             return nil
@@ -36,7 +36,9 @@ public extension UserActivityProvidable {
         else { return nil }
         let activity = NSUserActivity(activityType: Self.activityType)
         let string = String(data: data, encoding: .utf8)
-        activity.targetContentIdentifier = string
+        /// Stores the entire object in the persistent identifier
+        activity.persistentIdentifier = string
+        activity.targetContentIdentifier = Self.activityType
         return activity
     }
 }
