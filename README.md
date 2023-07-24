@@ -15,7 +15,7 @@
 # Overview
 - Add [accessible move actions](#accessibilitymoveable) to any array of items in a SwiftUI List or ForEach.
 - Make drag-and-drop operations easier for custom types in iOS 14 and 15 using [`Providable`](#providable)
-- Make drag-to-create-a-new-window operations easier in iPadOS 16+ using [`UserActivityProvidable`](#useractivityprovidable)
+- Make drag-to-create-a-new-window operations easier in iPadOS using [`UserActivityProvidable`](#useractivityprovidable)
 
 # DragAndDrop (example app)
 Check out the [example app](https://github.com/ryanlintott/DragAndDrop) to see how you can use this package in your iOS app.
@@ -163,9 +163,9 @@ Add your activity type string to plist under `NSUserActivityTypes` and then add 
 
 ```swift
 extension Bird: UserActivityProvidable {
-    static var activityType: String {
-        "com.ryanlintott.draganddrop.birdDetail"
-    }
+  static var activityType: String {
+    "com.ryanlintott.draganddrop.birdDetail"
+  }
 }
 ```
 
@@ -173,20 +173,15 @@ Use the `onContinueUserActivity` overload function that takes a `UserActivityPro
 
 ```swift
 .onContinueUserActivity(Bird.self) { bird in
-    guard let bird else { return }
-    /// Do something like open a new window with your codable type as the value.
-    openWindow(value: bird)
+  /// Adjust state based on your object.
 }
 ```
 
-Example of a new window you could add:
+You can also target a separate WindowGroup for your object. Make sure you still use `onContinueUserActivity` in your view to ensure the object gets loaded.
 
 ```swift
-WindowGroup(for: Bird.self) { $bird in
-    if let bird {
-        BirdDetailView(bird: bird)
-    } else {
-        Text("No bird.")
-    }
+WindowGroup {
+  BirdDetailView()            
 }
+.handlesExternalEvents(matching: [Bird.activityType])
 ```
