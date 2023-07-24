@@ -14,7 +14,8 @@
 
 # Overview
 - Add [accessible move actions](#accessibilitymoveable) to any array of items in a SwiftUI List or ForEach.
-- Make drag and drop operations easier for custom types in iOS 14 and 15 using [`Providable`](#providable)
+- Make drag-and-drop operations easier for custom types in iOS 14 and 15 using [`Providable`](#providable)
+- Make drag-to-create-a-new-window operations easier in iPadOS 16+ using [`UserActivityProvidable`](#useractivityprovidable)
 
 # DragAndDrop (example app)
 Check out the [example app](https://github.com/ryanlintott/DragAndDrop) to see how you can use this package in your iOS app.
@@ -83,7 +84,7 @@ You pass in a binding to the array of items and an optional label keypath. This 
 - Moving the same item again immediately after moving it may cause the accessibility focus to lag and another item will be moved instead.
 
 ## Providable
-This protocol allows for easier drag and drop for `Codable` objects in iOS 14 and 15.
+This protocol allows for easier drag and drop for `Codable` objects in iOS 14 and 15
 
 Drag and drop operations were made much easier in iOS 16 by the `Transferable` protocol. Older methods use `NSItemProvider` and were cumbersome to set up.
 
@@ -155,4 +156,37 @@ And even an insert option like this:
 }
 ```
 
+## UserActivityProvidable
+Extension to the `Providable` protocol to add easy drag to new window (a feature not supported by `Transferable`) on iPadOS 16+
 
+Add your activity type string to plist under `NSUserActivityTypes` and then add the same string to the activityType parameter on your codable type.
+
+```swift
+extension Bird: UserActivityProvidable {
+    static var activityType: String {
+        "com.ryanlintott.draganddrop.birdDetail"
+    }
+}
+```
+
+Use the `onContinueUserActivity` overload function that takes a `UserActivityProvidable` object to handle what your app does when opened via this activity.
+
+```swift
+.onContinueUserActivity(Bird.self) { bird in
+    guard let bird else { return }
+    /// Do something like open a new window with your codable type as the value.
+    openWindow(value: bird)
+}
+```
+
+Example of a new window you could add:
+
+```swift
+WindowGroup(for: Bird.self) { $bird in
+    if let bird {
+        BirdDetailView(bird: bird)
+    } else {
+        Text("No bird.")
+    }
+}
+```

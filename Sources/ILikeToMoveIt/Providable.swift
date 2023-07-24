@@ -1,6 +1,6 @@
 //
 //  Providable.swift
-//  DragAndDrop
+//  ILikeToMoveIt
 //
 //  Created by Ryan Lintott on 2022-10-12.
 //
@@ -14,7 +14,6 @@ public protocol Providable: Codable {
     static var writableTypes: [UTType] { get }
     /// An array of types that this object can be read from.
     static var readableTypes: [UTType] { get }
-    
     
     /// Returns a data representation of this object based on the specified type.
     /// - Parameter type: Type to use when converting to Data.
@@ -31,7 +30,13 @@ public protocol Providable: Codable {
 extension Providable {
     /// An `NSItemProvider` object based on this object.
     public var provider: NSItemProvider {
-        .init(object: ItemProvider(self))
+        let provider = NSItemProvider(object: ItemProvider(self))
+        
+        if let userActivity = (self as? UserActivityProvidable)?.userActivity {
+            provider.registerObject(userActivity, visibility: .all)
+        }
+        
+        return provider
     }
     
     public static func load(from provider: NSItemProvider, completionHandler: @escaping (Self?, Error?) -> Void) {

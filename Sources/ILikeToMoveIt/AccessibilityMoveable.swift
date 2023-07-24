@@ -123,23 +123,6 @@ public extension View {
     }
 }
 
-public extension View {
-    /// Adds accessibility move actions that allow a user to move the item up and down in a list for iOS 15+ and macOS 12+
-    ///
-    /// Requires a single `.accessibilityMoveableList` modifier on a parent view to apply accessibility move actions.
-    /// - Parameters:
-    ///   - item: The item to move.
-    ///   - actions: An array of move actions made available to the user.
-    /// - Returns: A view of an item that can be moved up and down in a list via accessibility actions for iOS 15+ and macOS 12+.
-    func accessibilityMoveableIfAvailable<Item: Hashable>(_ item: Item, actions: [AccessibilityMoveAction] = [.up, .down, .toTop, .toBottom]) -> some View {
-        if #available(iOS 15, macOS 12, *) {
-            return accessibilityMoveable(item, actions: actions)
-        } else {
-            return self
-        }
-    }
-}
-
 /// A View Modifier that applies accessibility move actions from child views that use `AccessibilityMoveableViewModifier`
 @available(iOS 15, macOS 12, *)
 struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
@@ -239,20 +222,5 @@ public extension View {
     /// - Returns: A view that applies accessibility move actions from child views.
     func accessibilityMoveableList<Item: Hashable>(_ items: Binding<Array<Item>>, label: KeyPath<Item, String>? = nil) -> some View {
         modifier(AccessibilityMoveableListViewModifier(items: items, label: label))
-    }
-}
-
-public extension View {
-    /// Applies accessibility move actions from child views that use `accessibilityMoveable` for iOS 15+ and macOS 12+
-    /// - Parameters:
-    ///   - items: Array of items that will be modified by accessibility move actions.
-    ///   - label: Optional keypath to the name of an item. If used, the names of items that are directly below a move up or above a move down will be annouced after a move.
-    /// - Returns: A view that applies accessibility move actions from child views for iOS 15+ and macOS 12+
-    func accessibilityMoveableListIfAvailable<Item: Hashable>(_ items: Binding<Array<Item>>, label: KeyPath<Item, String>? = nil) -> some View {
-        if #available(iOS 15, macOS 12, *) {
-            return accessibilityMoveableList(items, label: label)
-        } else {
-            return self
-        }
     }
 }
