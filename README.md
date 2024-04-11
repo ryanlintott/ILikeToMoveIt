@@ -35,6 +35,10 @@ If you like this package, buy me a coffee to say thanks!
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X7X04PU6T)
 
+Or you can buy a t-shirt with the iLikeToMoveIt logo
+
+<a href="https://cottonbureau.com/p/44WXMN/shirt/i-like-to-move-it#/18025527"><img width="256" alt="ShapeUp T-Shirt" src="https://cottonbureau.com/mockup?vid=18025527&hash=1055&w=512"></a>
+
 - - -
 # Details
 ## AccessibilityMoveable
