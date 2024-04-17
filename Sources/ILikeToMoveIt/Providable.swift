@@ -9,7 +9,7 @@ import Foundation
 import UniformTypeIdentifiers
 
 /// An object with that has an `NSItemProvider` property that can be used in `.onDrag`,  `.onDrop`, and `.onInsert` view modifiers in SwiftUI. It can be read and/or written to a set number of unique types.
-public protocol Providable: Codable {
+public protocol Providable: Codable, Sendable {
     /// An array of types that this object can be written to.
     static var writableTypes: [UTType] { get }
     /// An array of types that this object can be read from.
@@ -18,7 +18,7 @@ public protocol Providable: Codable {
     /// Returns a data representation of this object based on the specified type.
     /// - Parameter type: Type to use when converting to Data.
     /// - Returns: A data representation of this object based on the specified type.
-    func data(type: UTType) async throws -> Data?
+    func data(type: UTType) throws -> Data?
     
     /// Creates an object based on data converted using the specified type.
     /// - Parameters:
@@ -39,7 +39,7 @@ extension Providable {
         return provider
     }
     
-    public static func load(from provider: NSItemProvider, completionHandler: @escaping (Self?, Error?) -> Void) {
+    public static func load(from provider: NSItemProvider, completionHandler: @escaping @Sendable (Self?, Error?) -> Void) {
         provider.loadItem(Self.self, completionHandler: completionHandler)
     }
     
@@ -57,7 +57,7 @@ public extension NSItemProvider {
     /// - Parameters:
     ///   - itemType: Providable item type
     ///   - completionHandler: Closure to run when an item is found or an error returned.
-    func loadItem<T: Providable>(_ itemType: T.Type, completionHandler: @escaping (T?, Error?) -> Void) {
+    func loadItem<T: Providable>(_ itemType: T.Type, completionHandler: @escaping @Sendable (T?, Error?) -> Void) {
         if canLoadObject(ofClass: ItemProvider<T>.self) {
             _ = loadObject(ofClass: ItemProvider<T>.self) { itemProvider, error in
                 if let error {
@@ -79,7 +79,7 @@ public extension [NSItemProvider] {
     /// - Parameters:
     ///   - itemType: Providable item type
     ///   - completionHandler: Closure to run when each item is found or error is returned.
-    func loadItems<T: Providable>(_ itemType: T.Type, completionHandler: @escaping (T?, Error?) -> Void) {
+    func loadItems<T: Providable>(_ itemType: T.Type, completionHandler: @escaping @Sendable (T?, Error?) -> Void) {
         forEach { provider in
             provider.loadItem(itemType, completionHandler: completionHandler)
         }
@@ -102,18 +102,21 @@ class ItemProvider<Item: Providable>: NSObject, NSItemProviderWriting, NSItemPro
         Item.readableTypes.map(\.identifier)
     }
     
-    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping @Sendable (Data?, Error?) -> Void) -> Progress? {
-        Task {
-            do {
-                guard
-                    let type = Item.writableType(identifier: typeIdentifier),
-                    let data = try await item.data(type: type) else {
-                    throw ProvidableError.unsupportedUTTypeIdentifier
-                }
-                completionHandler(data, nil)
-            } catch {
-                completionHandler(nil, error)
-            }
+    func loadData(withTypeIdentifier typeIdentifier: String) throws -> Data {
+        guard
+            let type = Item.writableType(identifier: typeIdentifier),
+            let data = try item.data(type: type) else {
+            throw ProvidableError.unsupportedUTTypeIdentifier
+        }
+        return data
+    }
+    
+    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+        do {
+            let data = try loadData(withTypeIdentifier: typeIdentifier)
+            completionHandler(data, nil)
+        } catch {
+            completionHandler(nil, error)
         }
         
         return Progress(totalUnitCount: 100)

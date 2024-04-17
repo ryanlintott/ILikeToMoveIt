@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 /// Options for moving an item up and down a SwiftUI list using accessibility actions.
 public enum AccessibilityMoveAction: Identifiable, Hashable, Sendable {
     /// Move up by some number of spaces.
@@ -56,6 +55,7 @@ public struct AccessibilityMove<Item: Hashable>: Hashable {
 }
 
 /// An observable object that holds information about the current accessibility move and focus.
+@MainActor
 public class AccessibilityMoveController<Item: Hashable>: ObservableObject {
     /// The current accessibility item to focus on.
     @Published public var focus: Item? = nil
@@ -67,8 +67,9 @@ public class AccessibilityMoveController<Item: Hashable>: ObservableObject {
 ///
 /// Requires a single `AccessibilityMoveableListViewModifier` on a parent view to apply accessibility move actions.
 @available(iOS 15, macOS 12, *)
+@MainActor
 struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifier {
-    @EnvironmentObject var accessibilityMoveManager: AccessibilityMoveController<Item>
+    @EnvironmentObject var accessibilityMoveController: AccessibilityMoveController<Item>
     /// Focus state can only be managed inside a single SwiftUI View so it lives on each item and gets updated via the environment object.
     @AccessibilityFocusState var isFocused: Bool
     
@@ -82,15 +83,23 @@ struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifi
                     ForEach(actions) { action in
                         Color.clear
                             .accessibilityAction(named: action.name) {
-                                accessibilityMoveManager.move = .init(item: item, action: action)
+                                accessibilityMoveController.move = .init(item: item, action: action)
                             }
                     }
                 }
             }
             .accessibilityElement(children: .combine)
             .accessibilityFocused($isFocused)
-            .onReceive(accessibilityMoveManager.$focus) { newValue in
+            .task {
+                /// This ensures the accessibility focus is set when the view appears as well as when the focus changes.
+                if accessibilityMoveController.focus == item {
+                    print("View appeared and focus set for \(String(describing: item))")
+                    isFocused = true
+                }
+            }
+            .onReceive(accessibilityMoveController.$focus) { newValue in
                 if newValue == item {
+                    print("Value changed and focus set for \(String(describing: newValue))")
                     isFocused = true
                 }
             }
@@ -106,6 +115,7 @@ public extension View {
     ///   - item: The item to move.
     ///   - actions: An array of move actions made available to the user.
     /// - Returns: A view of an item that can be moved up and down in a list via accessibility actions.
+    @MainActor
     func accessibilityMoveable<Item: Hashable>(_ item: Item, actions: [AccessibilityMoveAction] = [.up, .down, .toTop, .toBottom]) -> some View {
         modifier(AccessibilityMoveableViewModifier(item: item, actions: actions))
     }
@@ -118,6 +128,7 @@ public extension View {
     ///   - it: The item to move.
     ///   - actions: An array of move actions made available to the user.
     /// - Returns: A view of an item that can be moved up and down in a list via accessibility actions.
+    @MainActor
     func iLikeToMove<It: Hashable>(_ it: It, actions: [AccessibilityMoveAction] = [.up, .down, .toTop, .toBottom]) -> some View {
         accessibilityMoveable(it, actions: actions)
     }
@@ -125,6 +136,7 @@ public extension View {
 
 /// A View Modifier that applies accessibility move actions from child views that use `AccessibilityMoveableViewModifier`
 @available(iOS 15, macOS 12, *)
+@MainActor
 struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
     /// Stores the next accessibility move and the focused item
     @StateObject var accessibilityMoveManager: AccessibilityMoveController<Item> = .init()
@@ -209,6 +221,8 @@ struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
             accessibilityMoveManager.focus = thisItem
         }
         
+        /// This may be a bug in Swift 5.10
+        /// https://forums.swift.org/t/preconcurrency-notification-names-in-submodules/70514
         UIAccessibility.post(notification: .announcement, argument: announcement.joined(separator: " "))
     }
 }
@@ -220,6 +234,7 @@ public extension View {
     ///   - items: Array of items that will be modified by accessibility move actions.
     ///   - label: Optional keypath to the name of an item. If used, the names of items that are directly below a move up or above a move down will be annouced after a move.
     /// - Returns: A view that applies accessibility move actions from child views.
+    @MainActor
     func accessibilityMoveableList<Item: Hashable>(_ items: Binding<Array<Item>>, label: KeyPath<Item, String>? = nil) -> some View {
         modifier(AccessibilityMoveableListViewModifier(items: items, label: label))
     }
