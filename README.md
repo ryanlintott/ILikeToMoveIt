@@ -20,17 +20,15 @@
 # DragAndDrop (example app)
 Check out the [example app](https://github.com/ryanlintott/DragAndDrop) to see how you can use this package in your iOS app.
 
-# Installation
+# Installation and Usage
 1. In Xcode go to `File -> Add Packages`
 2. Paste in the repo's url: `https://github.com/ryanlintott/ILikeToMoveIt` and select by version.
-
-# Usage
-Import the package using `import ILikeToMoveIt`
+3. Import the package using `import ILikeToMoveIt`
 
 # Platforms
 This package is compatible with iOS 14+ but the accessibility move feature only works for iOS 15+.
 
-# Support
+# Support iLikeToMoveIt
 If you like this package, buy me a coffee to say thanks!
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X7X04PU6T)
