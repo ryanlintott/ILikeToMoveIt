@@ -92,13 +92,9 @@ Drag and drop operations were made much easier in iOS 16 by the `Transferable` p
 Conform your object to `Providable`. Add readable and writable types, then add functions to transform your object to and from those types.
 ```swift
 extension Bird: Providable {
-    static var writableTypes: [UTType] {
-        [.bird]
-    }
+    static let writableTypes: [UTType] = [.bird]
 
-    static var readableTypes: [UTType] {
-        [.bird, .plainText]
-    }
+    static let readableTypes: [UTType] = [.bird, .plainText]
 
     func data(type: UTType) async throws-> Data? {
         switch type {
@@ -163,9 +159,7 @@ Add your activity type string to plist under `NSUserActivityTypes` and then add 
 
 ```swift
 extension Bird: UserActivityProvidable {
-  static var activityType: String {
-    "com.ryanlintott.draganddrop.birdDetail"
-  }
+  static let activityType = "com.ryanlintott.draganddrop.birdDetail"
 }
 ```
 
