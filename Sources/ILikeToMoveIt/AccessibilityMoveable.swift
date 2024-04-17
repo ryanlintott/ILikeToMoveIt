@@ -9,7 +9,7 @@ import SwiftUI
 
 
 /// Options for moving an item up and down a SwiftUI list using accessibility actions.
-public enum AccessibilityMoveAction: Identifiable, Hashable {
+public enum AccessibilityMoveAction: Identifiable, Hashable, Sendable {
     /// Move up by some number of spaces.
     case up(Int = 1)
     /// Move down by some number of spaces.
