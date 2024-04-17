@@ -19,6 +19,14 @@ public enum AccessibilityMoveAction: Identifiable, Hashable, Sendable {
     case toBottom
 
     public var id: Self { self }
+    
+    /// True if up or isTop
+    var isMovingUp: Bool {
+        switch self {
+        case .up(_), .toTop: true
+        case .down(_), .toBottom: false
+        }
+    }
 }
 
 public extension AccessibilityMoveAction {
@@ -170,24 +178,24 @@ struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
         case let .up(distance):
             destinationIndex = items.index(itemIndex, offsetBy: -distance)
         case let .down(distance):
-            destinationIndex = items.index(itemIndex, offsetBy: distance + 1)
+            destinationIndex = items.index(itemIndex, offsetBy: distance)
         case .toTop:
             destinationIndex = items.startIndex
         case .toBottom:
-            destinationIndex = items.endIndex
+            destinationIndex = items.endIndex - 1
         }
         /// Clamp destination by start and end index
-        destinationIndex = min(max(items.startIndex, destinationIndex), items.endIndex)
+        destinationIndex = min(max(items.startIndex, destinationIndex), items.endIndex - 1)
         
         let thisItem = item
         var announcement = [String]()
         
         switch (destinationIndex, action) {
-        case (itemIndex, .up), (itemIndex, .toTop), (itemIndex + 1, .down), (itemIndex + 1, .toBottom):
+        case (itemIndex, _):
             announcement.append("Not moved.")
         case (itemIndex - 1, .up):
             announcement.append("Moved up.")
-        case (itemIndex + 2, .down):
+        case (itemIndex + 1, .down):
             announcement.append("Moved down.")
         case (_, .up), (_, .toTop):
             announcement.append("Moved up by \(itemIndex - destinationIndex).")
@@ -197,26 +205,26 @@ struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
         
         if let label {
             switch (destinationIndex, action) {
-            case (itemIndex, .up), (itemIndex, .toTop), (itemIndex + 1, .down), (itemIndex + 1, .toBottom):
+            case (itemIndex, _):
                 break
             case (_, .up), (_, .toTop):
                 announcement.append("Above \(items[destinationIndex][keyPath: label]).")
             case (_, .down), (_, .toBottom):
-                announcement.append("Below \(items[destinationIndex - 1][keyPath: label]).")
+                announcement.append("Below \(items[destinationIndex][keyPath: label]).")
             }
         }
         
         switch destinationIndex {
         case items.startIndex:
             announcement.append("Item at top.")
-        case items.endIndex:
+        case items.endIndex - 1:
             announcement.append("Item at bottom.")
         default:
             break
         }
         
         if destinationIndex != itemIndex {
-            items.move(fromOffsets: [itemIndex], toOffset: destinationIndex)
+            items.move(fromOffsets: [itemIndex], toOffset: destinationIndex + (action.isMovingUp ? 0 : 1))
             /// Even though accessibility focus appears to stay on the moved item, resetting it ensures the index and associated accessibility actions are also updated.
             accessibilityMoveManager.focus = thisItem
         }
