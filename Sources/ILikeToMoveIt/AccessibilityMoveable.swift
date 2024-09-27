@@ -8,6 +8,8 @@
 import SwiftUI
 
 /// Options for moving an item up and down a SwiftUI list using accessibility actions.
+///
+/// Used in ``AccessibilityMove``
 public enum AccessibilityMoveAction: Identifiable, Hashable, Sendable {
     /// Move up by some number of spaces.
     case up(Int = 1)
@@ -73,9 +75,8 @@ public class AccessibilityMoveController<Item: Hashable>: ObservableObject {
 
 /// A View Modifier that adds accessibility move actions that allow a user to move the item up and down in a list.
 ///
-/// Requires a single `AccessibilityMoveableListViewModifier` on a parent view to apply accessibility move actions.
+/// - Required: ``AccessibilityMoveableListViewModifier`` must be applied on a parent view.
 @available(iOS 15, macOS 12, *)
-@MainActor
 struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifier {
     @EnvironmentObject var accessibilityMoveController: AccessibilityMoveController<Item>
     /// Focus state can only be managed inside a single SwiftUI View so it lives on each item and gets updated via the environment object.
@@ -118,33 +119,33 @@ struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifi
 public extension View {
     /// Adds accessibility move actions that allow a user to move the item up and down in a list.
     ///
-    /// Requires a single `.accessibilityMoveableList` modifier applied to a parent view (typically `List`)
+    /// - Important: Requires a single ``accessibilityMoveableList(_:label:)`` modifier applied to a parent view (typically `List`)
+    ///
     /// - Parameters:
     ///   - item: The item to move.
     ///   - actions: An array of move actions made available to the user.
     /// - Returns: A view of an item that can be moved up and down in a list via accessibility actions.
-    @MainActor
     func accessibilityMoveable<Item: Hashable>(_ item: Item, actions: [AccessibilityMoveAction] = [.up, .down, .toTop, .toBottom]) -> some View {
         modifier(AccessibilityMoveableViewModifier(item: item, actions: actions))
     }
     
     /// Adds accessibility move actions that allow a user to move the item up and down in a list.
     ///
-    /// Requires a single `.accessibilityMoveableList` modifier applied to a parent view (typically `List`)
-    /// Alternatively-named function for `accessibilityMoveable`
+    /// Alternative fun name for ``accessibilityMoveable(_:actions:)``
+    ///
+    /// - Important: Requires a single ``accessibilityMoveableList(_:label:)`` modifier applied to a parent view (typically `List`)
+    ///
     /// - Parameters:
     ///   - it: The item to move.
     ///   - actions: An array of move actions made available to the user.
     /// - Returns: A view of an item that can be moved up and down in a list via accessibility actions.
-    @MainActor
     func iLikeToMove<It: Hashable>(_ it: It, actions: [AccessibilityMoveAction] = [.up, .down, .toTop, .toBottom]) -> some View {
         accessibilityMoveable(it, actions: actions)
     }
 }
 
-/// A View Modifier that applies accessibility move actions from child views that use `AccessibilityMoveableViewModifier`
+/// A View Modifier that applies accessibility move actions from child views that use ``AccessibilityMoveableViewModifier``
 @available(iOS 15, macOS 12, *)
-@MainActor
 struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
     /// Stores the next accessibility move and the focused item
     @StateObject var accessibilityMoveManager: AccessibilityMoveController<Item> = .init()
@@ -237,12 +238,11 @@ struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
 
 @available(iOS 15, macOS 12, *)
 public extension View {
-    /// Applies accessibility move actions from child views that use `accessibilityMoveable`
+    /// Applies accessibility move actions from child views that use ``accessibilityMoveable(_:actions:)``
     /// - Parameters:
     ///   - items: Array of items that will be modified by accessibility move actions.
     ///   - label: Optional keypath to the name of an item. If used, the names of items that are directly below a move up or above a move down will be annouced after a move.
     /// - Returns: A view that applies accessibility move actions from child views.
-    @MainActor
     func accessibilityMoveableList<Item: Hashable>(_ items: Binding<Array<Item>>, label: KeyPath<Item, String>? = nil) -> some View {
         modifier(AccessibilityMoveableListViewModifier(items: items, label: label))
     }

@@ -9,7 +9,7 @@ import Foundation
 import UniformTypeIdentifiers
 
 /// An object with that has an `NSItemProvider` property that can be used in `.onDrag`,  `.onDrop`, and `.onInsert` view modifiers in SwiftUI. It can be read and/or written to a set number of unique types.
-public protocol Providable: Codable, Sendable {
+public protocol Providable: Codable {
     /// An array of types that this object can be written to.
     static var writableTypes: [UTType] { get }
     /// An array of types that this object can be read from.
@@ -53,7 +53,7 @@ extension Providable {
 }
 
 public extension NSItemProvider {
-    /// Loads a `Providable` item from this `NSItemProvider`
+    /// Loads a ``Providable`` item from this `NSItemProvider`
     /// - Parameters:
     ///   - itemType: Providable item type
     ///   - completionHandler: Closure to run when an item is found or an error returned.
@@ -75,7 +75,7 @@ public extension NSItemProvider {
 }
 
 public extension [NSItemProvider] {
-    /// Loads a `Providable` items in sequence from this array of `NSItemProvider`
+    /// Loads a ``Providable`` items in sequence from this array of `NSItemProvider`
     /// - Parameters:
     ///   - itemType: Providable item type
     ///   - completionHandler: Closure to run when each item is found or error is returned.

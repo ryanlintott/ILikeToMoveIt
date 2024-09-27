@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// A `Providable`object with that has an `NSUserActivity` property that will help it create new windows on iPadOS.
+/// A ``Providable`` object with that has an `NSUserActivity` property that will help it create new windows on iPadOS.
 ///
 /// Make sure to add your activity type string to plist under `NSUserActivityTypes` and then use the    `onContinueUserActivity` overload function that takes a `UserActivityProvidable` object to handle what your app does when opened via this activity.
 public protocol UserActivityProvidable: Providable {
@@ -44,7 +44,7 @@ public extension UserActivityProvidable {
 }
 
 public extension View {
-    /// Registers a handler to invoke when a new scene is created by dropping the specified `UserActivityProvidable` type.
+    /// Registers a handler to invoke when a new scene is created by dropping the specified ``UserActivityProvidable`` type.
     /// - Parameters:
     ///   - item: The type of object that will envoke this handler.
     ///   - action: The handler that will run when the new scene is created with an optional item that was dropped. The item will be nil if there was an error in the encoding or decoding process.
