@@ -102,13 +102,13 @@ struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifi
             .task {
                 /// This ensures the accessibility focus is set when the view appears as well as when the focus changes.
                 if accessibilityMoveController.focus == item {
-                    print("View appeared and focus set for \(String(describing: item))")
+//                    print("View appeared and focus set for \(String(describing: item))")
                     isFocused = true
                 }
             }
             .onReceive(accessibilityMoveController.$focus) { newValue in
                 if newValue == item {
-                    print("Value changed and focus set for \(String(describing: newValue))")
+//                    print("Value changed and focus set for \(String(describing: newValue))")
                     isFocused = true
                 }
             }
