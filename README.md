@@ -18,7 +18,7 @@
 - Make drag-to-create-a-new-window operations easier in iPadOS using [`UserActivityProvidable`](#useractivityprovidable)
 
 # Demo
-The `Example` folder has an app that demonstrates the features of this package and how to set up [Drag and Drop for Custom Types](#draganddropforcustomtypes).
+The `Example` folder has an app that demonstrates the features of this package and how to set up [Drag and Drop for Custom Types](#drag-and-drop-for-custom-types).
 
 <a href="https://mastodon.social/@ryanlintott/110690143602729594"><img width="250" alt="ILikeToMoveIt demo app with the logo at the top and two lists at the bottom. The left list contains a number of birds. Chicken is dragged up a few spaces. Cardinal is dragged to the empty list on the right. Robin, Goose, and Swan are picked up from the left list and dropped on the right list. Text reading StringBird above the list is dragged onto the right list. Switching over to the reminders app, two reminders named Crow and Finch are picked up and dragged back into the right list of ILikeToMoveIt. VoiceOver is turned on and Robin is moved up and down using accessibility actions. Each time the move and the final position above Chicken or below Blue Jay is reported along with At Top or At Bottom if applicable." src="https://github.com/user-attachments/assets/6ecf445f-82d8-4cc2-8135-bb374fe9d7af"></a>
 
