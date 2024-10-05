@@ -17,7 +17,7 @@
 		CFE4F6342A6F6B8E0012C336 /* DraggableStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE4F6332A6F6B8E0012C336 /* DraggableStringView.swift */; };
 		CFE4F6362A6F6BB70012C336 /* DraggableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE4F6352A6F6BB70012C336 /* DraggableView.swift */; };
 		CFF321272CAF3DDA008DC0DB /* ILikeToMoveIt in Frameworks */ = {isa = PBXBuildFile; productRef = CFF321262CAF3DDA008DC0DB /* ILikeToMoveIt */; };
-		CFF37A1D28F5ED1A00E967FB /* DragAndDropApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF37A1C28F5ED1A00E967FB /* DragAndDropApp.swift */; };
+		CFF37A1D28F5ED1A00E967FB /* ILikeToMoveItExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF37A1C28F5ED1A00E967FB /* ILikeToMoveItExampleApp.swift */; };
 		CFF37A1F28F5ED1A00E967FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF37A1E28F5ED1A00E967FB /* ContentView.swift */; };
 		CFF37A2128F5ED1A00E967FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFF37A2028F5ED1A00E967FB /* Assets.xcassets */; };
 		CFF37A2428F5ED1A00E967FB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFF37A2328F5ED1A00E967FB /* Preview Assets.xcassets */; };
@@ -35,8 +35,8 @@
 		CFBFB5092A1FDDCD00DC81B0 /* BirdListTransferable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirdListTransferable.swift; sourceTree = "<group>"; };
 		CFE4F6332A6F6B8E0012C336 /* DraggableStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableStringView.swift; sourceTree = "<group>"; };
 		CFE4F6352A6F6BB70012C336 /* DraggableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableView.swift; sourceTree = "<group>"; };
-		CFF37A1928F5ED1A00E967FB /* DragAndDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragAndDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CFF37A1C28F5ED1A00E967FB /* DragAndDropApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragAndDropApp.swift; sourceTree = "<group>"; };
+		CFF37A1928F5ED1A00E967FB /* ILikeToMoveItExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ILikeToMoveItExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFF37A1C28F5ED1A00E967FB /* ILikeToMoveItExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ILikeToMoveItExampleApp.swift; sourceTree = "<group>"; };
 		CFF37A1E28F5ED1A00E967FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CFF37A2028F5ED1A00E967FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CFF37A2328F5ED1A00E967FB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 		CFF37A1028F5ED1A00E967FB = {
 			isa = PBXGroup;
 			children = (
-				CFF37A1B28F5ED1A00E967FB /* DragAndDrop */,
+				CFF37A1B28F5ED1A00E967FB /* Sources */,
 				CFF321252CAF3DDA008DC0DB /* Frameworks */,
 				CFF37A1A28F5ED1A00E967FB /* Products */,
 			);
@@ -94,16 +94,16 @@
 		CFF37A1A28F5ED1A00E967FB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CFF37A1928F5ED1A00E967FB /* DragAndDrop.app */,
+				CFF37A1928F5ED1A00E967FB /* ILikeToMoveItExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CFF37A1B28F5ED1A00E967FB /* DragAndDrop */ = {
+		CFF37A1B28F5ED1A00E967FB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				CFF37A2E28F6011A00E967FB /* Info.plist */,
-				CFF37A1C28F5ED1A00E967FB /* DragAndDropApp.swift */,
+				CFF37A1C28F5ED1A00E967FB /* ILikeToMoveItExampleApp.swift */,
 				CFF37A1E28F5ED1A00E967FB /* ContentView.swift */,
 				CFE4F6332A6F6B8E0012C336 /* DraggableStringView.swift */,
 				CFE4F6352A6F6BB70012C336 /* DraggableView.swift */,
@@ -117,7 +117,7 @@
 				CFF37A2028F5ED1A00E967FB /* Assets.xcassets */,
 				CFF37A2228F5ED1A00E967FB /* Preview Content */,
 			);
-			path = DragAndDrop;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		CFF37A2228F5ED1A00E967FB /* Preview Content */ = {
@@ -131,9 +131,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CFF37A1828F5ED1A00E967FB /* DragAndDrop */ = {
+		CFF37A1828F5ED1A00E967FB /* ILikeToMoveItExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CFF37A2728F5ED1A00E967FB /* Build configuration list for PBXNativeTarget "DragAndDrop" */;
+			buildConfigurationList = CFF37A2728F5ED1A00E967FB /* Build configuration list for PBXNativeTarget "ILikeToMoveItExample" */;
 			buildPhases = (
 				CFF37A1528F5ED1A00E967FB /* Sources */,
 				CFF37A1628F5ED1A00E967FB /* Frameworks */,
@@ -143,12 +143,12 @@
 			);
 			dependencies = (
 			);
-			name = DragAndDrop;
+			name = ILikeToMoveItExample;
 			packageProductDependencies = (
 				CFF321262CAF3DDA008DC0DB /* ILikeToMoveIt */,
 			);
 			productName = DragAndDrop;
-			productReference = CFF37A1928F5ED1A00E967FB /* DragAndDrop.app */;
+			productReference = CFF37A1928F5ED1A00E967FB /* ILikeToMoveItExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -166,7 +166,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CFF37A1428F5ED1A00E967FB /* Build configuration list for PBXProject "DragAndDrop" */;
+			buildConfigurationList = CFF37A1428F5ED1A00E967FB /* Build configuration list for PBXProject "ILikeToMoveItExample" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -182,7 +182,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CFF37A1828F5ED1A00E967FB /* DragAndDrop */,
+				CFF37A1828F5ED1A00E967FB /* ILikeToMoveItExample */,
 			);
 		};
 /* End PBXProject section */
@@ -212,7 +212,7 @@
 				CFBFB5082A1FD40D00DC81B0 /* UTType+Bird.swift in Sources */,
 				CFB906012A5E537F00146FB3 /* BirdDetailView.swift in Sources */,
 				CFBFB5062A1F951900DC81B0 /* Bird+Transferable.swift in Sources */,
-				CFF37A1D28F5ED1A00E967FB /* DragAndDropApp.swift in Sources */,
+				CFF37A1D28F5ED1A00E967FB /* ILikeToMoveItExampleApp.swift in Sources */,
 				CF3F07F828F86847005D5E70 /* BirdListProvidable.swift in Sources */,
 				CF6CCE522A5C3DC600B0C707 /* MoreInfo.swift in Sources */,
 				CFB906032A61786800146FB3 /* View+IfAvailable.swift in Sources */,
@@ -348,11 +348,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"DragAndDrop/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Sources/Preview Content\"";
 				DEVELOPMENT_TEAM = 97423JQ8B9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DragAndDrop/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iLikeToMoveIt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -382,11 +382,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"DragAndDrop/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Sources/Preview Content\"";
 				DEVELOPMENT_TEAM = 97423JQ8B9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DragAndDrop/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iLikeToMoveIt;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -412,7 +412,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CFF37A1428F5ED1A00E967FB /* Build configuration list for PBXProject "DragAndDrop" */ = {
+		CFF37A1428F5ED1A00E967FB /* Build configuration list for PBXProject "ILikeToMoveItExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CFF37A2528F5ED1A00E967FB /* Debug */,
@@ -421,7 +421,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CFF37A2728F5ED1A00E967FB /* Build configuration list for PBXNativeTarget "DragAndDrop" */ = {
+		CFF37A2728F5ED1A00E967FB /* Build configuration list for PBXNativeTarget "ILikeToMoveItExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CFF37A2828F5ED1A00E967FB /* Debug */,

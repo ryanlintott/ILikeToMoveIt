@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CFF37A1828F5ED1A00E967FB"
-               BuildableName = "DragAndDrop.app"
-               BlueprintName = "DragAndDrop"
-               ReferencedContainer = "container:DragAndDrop.xcodeproj">
+               BuildableName = "ILikeToMoveItExample.app"
+               BlueprintName = "ILikeToMoveItExample"
+               ReferencedContainer = "container:ILikeToMoveItExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CFF37A1828F5ED1A00E967FB"
-            BuildableName = "DragAndDrop.app"
-            BlueprintName = "DragAndDrop"
-            ReferencedContainer = "container:DragAndDrop.xcodeproj">
+            BuildableName = "ILikeToMoveItExample.app"
+            BlueprintName = "ILikeToMoveItExample"
+            ReferencedContainer = "container:ILikeToMoveItExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CFF37A1828F5ED1A00E967FB"
-            BuildableName = "DragAndDrop.app"
-            BlueprintName = "DragAndDrop"
-            ReferencedContainer = "container:DragAndDrop.xcodeproj">
+            BuildableName = "ILikeToMoveItExample.app"
+            BlueprintName = "ILikeToMoveItExample"
+            ReferencedContainer = "container:ILikeToMoveItExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

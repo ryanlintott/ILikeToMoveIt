@@ -1,6 +1,6 @@
 //
-//  DragAndDropApp.swift
-//  DragAndDrop
+//  ILikeToMoveItExampleApp.swift
+//  ILikeToMoveItExample
 //
 //  Created by Ryan Lintott on 2022-10-11.
 //
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct DragAndDropApp: App {
+struct ILikeToMoveItExampleApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

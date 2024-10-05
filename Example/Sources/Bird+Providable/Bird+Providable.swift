@@ -1,6 +1,6 @@
 //
 //  Bird+Providable.swift
-//  DragAndDrop
+//  ILikeToMoveItExample
 //
 //  Created by Ryan Lintott on 2023-07-03.
 //
@@ -37,5 +37,5 @@ extension Bird: Providable {
 }
 
 extension Bird: UserActivityProvidable {
-    static let activityType = "com.ryanlintott.draganddrop.birdDetail"
+    static let activityType = "com.ryanlintott.iliketomoveitexample.birdDetail"
 }
