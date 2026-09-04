@@ -75,18 +75,10 @@
 			path = "Bird+Providable";
 			sourceTree = "<group>";
 		};
-		CFF321252CAF3DDA008DC0DB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		CFF37A1028F5ED1A00E967FB = {
 			isa = PBXGroup;
 			children = (
 				CFF37A1B28F5ED1A00E967FB /* Sources */,
-				CFF321252CAF3DDA008DC0DB /* Frameworks */,
 				CFF37A1A28F5ED1A00E967FB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -147,7 +139,7 @@
 			packageProductDependencies = (
 				CFF321262CAF3DDA008DC0DB /* ILikeToMoveIt */,
 			);
-			productName = DragAndDrop;
+			productName = ILikeToMoveItExample;
 			productReference = CFF37A1928F5ED1A00E967FB /* ILikeToMoveItExample.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -176,7 +168,7 @@
 			);
 			mainGroup = CFF37A1028F5ED1A00E967FB;
 			packageReferences = (
-				CFB7DE112CAF356600B50D49 /* XCLocalSwiftPackageReference "../../ILikeToMoveIt" */,
+				CFB7DE112CAF356600B50D49 /* XCLocalSwiftPackageReference ".." */,
 			);
 			productRefGroup = CFF37A1A28F5ED1A00E967FB /* Products */;
 			projectDirPath = "";
@@ -360,7 +352,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -394,7 +386,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -433,16 +425,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		CFB7DE112CAF356600B50D49 /* XCLocalSwiftPackageReference "../../ILikeToMoveIt" */ = {
+		CFB7DE112CAF356600B50D49 /* XCLocalSwiftPackageReference ".." */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../ILikeToMoveIt;
+			relativePath = ..;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		CFF321262CAF3DDA008DC0DB /* ILikeToMoveIt */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CFB7DE112CAF356600B50D49 /* XCLocalSwiftPackageReference "../../ILikeToMoveIt" */;
+			package = CFB7DE112CAF356600B50D49 /* XCLocalSwiftPackageReference ".." */;
 			productName = ILikeToMoveIt;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -9,40 +9,42 @@
 ![License - MIT](https://img.shields.io/github/license/ryanlintott/ILikeToMoveIt)
 ![Version](https://img.shields.io/github/v/tag/ryanlintott/ILikeToMoveIt?label=version)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ryanlintott/ILikeToMoveIt)
+[![Documentation](https://img.shields.io/badge/documentation-Swift%20Package%20Index-blue)](https://swiftpackageindex.com/ryanlintott/ILikeToMoveIt/documentation/iliketomoveit)
 [![Mastodon](https://img.shields.io/badge/mastodon-@ryanlintott-5c4ee4.svg?style=flat)](http://mastodon.social/@ryanlintott)
-[![Twitter](https://img.shields.io/badge/twitter-@ryanlintott-blue.svg?style=flat)](http://twitter.com/ryanlintott)
+[![Bluesky](https://img.shields.io/badge/bluesky-@ryanlintott-0285FF.svg?style=flat)](https://bsky.app/profile/ryanlintott.bsky.social)
 
 # Overview
 - Add [accessible move actions](#accessibilitymoveable) to any array of items in a SwiftUI List or ForEach.
-- Make drag-and-drop operations easier for custom types in iOS 14 and 15 using [`Providable`](#providable)
+- Make drag-and-drop operations easier for custom types in iOS 15 using [`Providable`](#providable)
 - Make drag-to-create-a-new-window operations easier in iPadOS using [`UserActivityProvidable`](#useractivityprovidable)
 
-# Demo
+# Demo App
 The `Example` folder has an app that demonstrates the features of this package and how to set up [Drag and Drop for Custom Types](#drag-and-drop-for-custom-types).
 
 <a href="https://mastodon.social/@ryanlintott/110690143602729594"><img width="250" alt="ILikeToMoveIt demo app with the logo at the top and two lists at the bottom. The left list contains a number of birds. Chicken is dragged up a few spaces. Cardinal is dragged to the empty list on the right. Robin, Goose, and Swan are picked up from the left list and dropped on the right list. Text reading StringBird above the list is dragged onto the right list. Switching over to the reminders app, two reminders named Crow and Finch are picked up and dragged back into the right list of ILikeToMoveIt. VoiceOver is turned on and Robin is moved up and down using accessibility actions. Each time the move and the final position above Chicken or below Blue Jay is reported along with At Top or At Bottom if applicable." src="https://github.com/user-attachments/assets/6ecf445f-82d8-4cc2-8135-bb374fe9d7af"></a>
 
 # Installation and Usage
+This package is compatible with iOS 15+.
+
 1. In Xcode go to `File -> Add Packages`
 2. Paste in the repo's url: `https://github.com/ryanlintott/ILikeToMoveIt` and select by version.
 3. Import the package using `import ILikeToMoveIt`
 
-# Platforms
-This package is compatible with iOS 14+ but the accessibility move feature only works for iOS 15+.
+# Documentation
+Full API documentation is hosted on the [Swift Package Index](https://swiftpackageindex.com/ryanlintott/ILikeToMoveIt/documentation/iliketomoveit).
 
-# Support iLikeToMoveIt
-If you like this package, buy me a coffee to say thanks!
+# Support
+ILikeToMoveIt is open source and free but if you like using it, please consider supporting my work.
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X7X04PU6T)
 
 Or you can buy a t-shirt with the iLikeToMoveIt logo
 
-<a href="https://cottonbureau.com/p/44WXMN/shirt/i-like-to-move-it#/18025527"><img width="256" alt="ShapeUp T-Shirt" src="https://cottonbureau.com/mockup?vid=18025527&hash=1055&w=512"></a>
+<a href="https://cottonbureau.com/p/44WXMN/shirt/i-like-to-move-it#/18025527"><img width="256" alt="ILikeToMoveIt T-Shirt" src="https://cottonbureau.com/mockup?vid=18025527&hash=1055&w=512"></a>
 
 - - -
-# Details
+# Features
 ## AccessibilityMoveable
-*\*iOS 15+*
 
 Two modifiers are required to enable accessible move actions. One for each item and one for the list itself.
 
@@ -88,7 +90,7 @@ You pass in a binding to the array of items and an optional label keypath. This 
 - Moving the same item again immediately after moving it may cause the accessibility focus to lag and another item will be moved instead.
 
 ## Providable
-This protocol allows for easier drag and drop for `Codable` objects in iOS 14 and 15
+This protocol allows for easier drag and drop for `Codable` objects in iOS 15.
 
 Drag and drop operations were made much easier in iOS 16 by the `Transferable` protocol. Older methods use `NSItemProvider` and were cumbersome to set up.
 
@@ -163,7 +165,7 @@ Add your activity type string to plist under `NSUserActivityTypes` and then add 
 
 ```swift
 extension Bird: UserActivityProvidable {
-  static let activityType = "com.ryanlintott.draganddrop.birdDetail"
+  static let activityType = "com.ryanlintott.iliketomoveitexample.birdDetail"
 }
 ```
 
@@ -208,11 +210,11 @@ Project > Target > Info > Exported Type Identifiers
 import UniformTypeIdentifiers
 
 extension UTType {
-    static let bird = UTType("com.ryanlintott.draganddrop.bird") ?? .data
+    static let bird = UTType("com.ryanlintott.iliketomoveitexample.bird") ?? .data
 }
 ```
 
-## Draggable custom types in iOS 14 & 15
+## Draggable custom types in iOS 15
 
 - Add this package to your project and follow instructions to conform your object to [`Providable`](#providable).
 

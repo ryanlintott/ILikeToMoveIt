@@ -9,7 +9,7 @@ import Foundation
 import UniformTypeIdentifiers
 
 /// An object with that has an `NSItemProvider` property that can be used in `.onDrag`,  `.onDrop`, and `.onInsert` view modifiers in SwiftUI. It can be read and/or written to a set number of unique types.
-public protocol Providable: Codable {
+public protocol Providable: Codable, Sendable {
     /// An array of types that this object can be written to.
     static var writableTypes: [UTType] { get }
     /// An array of types that this object can be read from.

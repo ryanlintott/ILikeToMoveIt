@@ -76,7 +76,6 @@ public class AccessibilityMoveController<Item: Hashable>: ObservableObject {
 /// A View Modifier that adds accessibility move actions that allow a user to move the item up and down in a list.
 ///
 /// - Required: ``AccessibilityMoveableListViewModifier`` must be applied on a parent view.
-@available(iOS 15, macOS 12, *)
 struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifier {
     @EnvironmentObject var accessibilityMoveController: AccessibilityMoveController<Item>
     /// Focus state can only be managed inside a single SwiftUI View so it lives on each item and gets updated via the environment object.
@@ -115,7 +114,6 @@ struct AccessibilityMoveableViewModifier<Item: Hashable & Equatable>: ViewModifi
     }
 }
 
-@available(iOS 15, macOS 12, *)
 public extension View {
     /// Adds accessibility move actions that allow a user to move the item up and down in a list.
     ///
@@ -145,7 +143,6 @@ public extension View {
 }
 
 /// A View Modifier that applies accessibility move actions from child views that use ``AccessibilityMoveableViewModifier``
-@available(iOS 15, macOS 12, *)
 struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
     /// Stores the next accessibility move and the focused item
     @StateObject var accessibilityMoveManager: AccessibilityMoveController<Item> = .init()
@@ -236,7 +233,6 @@ struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
     }
 }
 
-@available(iOS 15, macOS 12, *)
 public extension View {
     /// Applies accessibility move actions from child views that use ``accessibilityMoveable(_:actions:)``
     /// - Parameters:
