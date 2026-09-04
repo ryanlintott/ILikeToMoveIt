@@ -3,47 +3,30 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CF3F07F828F86847005D5E70 /* BirdListProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3F07F728F86847005D5E70 /* BirdListProvidable.swift */; };
-		CF6CCE522A5C3DC600B0C707 /* MoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CCE512A5C3DC600B0C707 /* MoreInfo.swift */; };
-		CFB906012A5E537F00146FB3 /* BirdDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB906002A5E537F00146FB3 /* BirdDetailView.swift */; };
-		CFB906032A61786800146FB3 /* View+IfAvailable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB906022A61786800146FB3 /* View+IfAvailable.swift */; };
-		CFBFB5062A1F951900DC81B0 /* Bird+Transferable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBFB5052A1F951900DC81B0 /* Bird+Transferable.swift */; };
-		CFBFB5082A1FD40D00DC81B0 /* UTType+Bird.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBFB5072A1FD40D00DC81B0 /* UTType+Bird.swift */; };
-		CFBFB50A2A1FDDCD00DC81B0 /* BirdListTransferable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBFB5092A1FDDCD00DC81B0 /* BirdListTransferable.swift */; };
-		CFE4F6342A6F6B8E0012C336 /* DraggableStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE4F6332A6F6B8E0012C336 /* DraggableStringView.swift */; };
-		CFE4F6362A6F6BB70012C336 /* DraggableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE4F6352A6F6BB70012C336 /* DraggableView.swift */; };
 		CFF321272CAF3DDA008DC0DB /* ILikeToMoveIt in Frameworks */ = {isa = PBXBuildFile; productRef = CFF321262CAF3DDA008DC0DB /* ILikeToMoveIt */; };
-		CFF37A1D28F5ED1A00E967FB /* ILikeToMoveItExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF37A1C28F5ED1A00E967FB /* ILikeToMoveItExampleApp.swift */; };
-		CFF37A1F28F5ED1A00E967FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF37A1E28F5ED1A00E967FB /* ContentView.swift */; };
-		CFF37A2128F5ED1A00E967FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFF37A2028F5ED1A00E967FB /* Assets.xcassets */; };
-		CFF37A2428F5ED1A00E967FB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFF37A2328F5ED1A00E967FB /* Preview Assets.xcassets */; };
-		CFF37A2B28F5ED5100E967FB /* Bird.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF37A2A28F5ED5100E967FB /* Bird.swift */; };
-		CFFEB3212A537B1100C8C974 /* Bird+Providable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFEB3202A537B1100C8C974 /* Bird+Providable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CF3F07F728F86847005D5E70 /* BirdListProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirdListProvidable.swift; sourceTree = "<group>"; };
-		CF6CCE512A5C3DC600B0C707 /* MoreInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInfo.swift; sourceTree = "<group>"; };
-		CFB906002A5E537F00146FB3 /* BirdDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirdDetailView.swift; sourceTree = "<group>"; };
-		CFB906022A61786800146FB3 /* View+IfAvailable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+IfAvailable.swift"; sourceTree = "<group>"; };
-		CFBFB5052A1F951900DC81B0 /* Bird+Transferable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bird+Transferable.swift"; sourceTree = "<group>"; };
-		CFBFB5072A1FD40D00DC81B0 /* UTType+Bird.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UTType+Bird.swift"; sourceTree = "<group>"; };
-		CFBFB5092A1FDDCD00DC81B0 /* BirdListTransferable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirdListTransferable.swift; sourceTree = "<group>"; };
-		CFE4F6332A6F6B8E0012C336 /* DraggableStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableStringView.swift; sourceTree = "<group>"; };
-		CFE4F6352A6F6BB70012C336 /* DraggableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableView.swift; sourceTree = "<group>"; };
 		CFF37A1928F5ED1A00E967FB /* ILikeToMoveItExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ILikeToMoveItExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CFF37A1C28F5ED1A00E967FB /* ILikeToMoveItExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ILikeToMoveItExampleApp.swift; sourceTree = "<group>"; };
-		CFF37A1E28F5ED1A00E967FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		CFF37A2028F5ED1A00E967FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CFF37A2328F5ED1A00E967FB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		CFF37A2A28F5ED5100E967FB /* Bird.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bird.swift; sourceTree = "<group>"; };
-		CFF37A2E28F6011A00E967FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		CFFEB3202A537B1100C8C974 /* Bird+Providable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bird+Providable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CFD3F12B304A45C500492261 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CFF37A1828F5ED1A00E967FB /* ILikeToMoveItExample */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CFD3F11A304A45C400492261 /* Sources */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CFD3F12B304A45C500492261 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Sources; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		CFF37A1628F5ED1A00E967FB /* Frameworks */ = {
@@ -57,28 +40,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CFBFB50D2A1FE02600DC81B0 /* Bird+Transferable */ = {
-			isa = PBXGroup;
-			children = (
-				CFBFB5092A1FDDCD00DC81B0 /* BirdListTransferable.swift */,
-				CFBFB5052A1F951900DC81B0 /* Bird+Transferable.swift */,
-			);
-			path = "Bird+Transferable";
-			sourceTree = "<group>";
-		};
-		CFD08A7E2A5388950018ED7E /* Bird+Providable */ = {
-			isa = PBXGroup;
-			children = (
-				CF3F07F728F86847005D5E70 /* BirdListProvidable.swift */,
-				CFFEB3202A537B1100C8C974 /* Bird+Providable.swift */,
-			);
-			path = "Bird+Providable";
-			sourceTree = "<group>";
-		};
 		CFF37A1028F5ED1A00E967FB = {
 			isa = PBXGroup;
 			children = (
-				CFF37A1B28F5ED1A00E967FB /* Sources */,
+				CFD3F11A304A45C400492261 /* Sources */,
 				CFF37A1A28F5ED1A00E967FB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,35 +54,6 @@
 				CFF37A1928F5ED1A00E967FB /* ILikeToMoveItExample.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		CFF37A1B28F5ED1A00E967FB /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				CFF37A2E28F6011A00E967FB /* Info.plist */,
-				CFF37A1C28F5ED1A00E967FB /* ILikeToMoveItExampleApp.swift */,
-				CFF37A1E28F5ED1A00E967FB /* ContentView.swift */,
-				CFE4F6332A6F6B8E0012C336 /* DraggableStringView.swift */,
-				CFE4F6352A6F6BB70012C336 /* DraggableView.swift */,
-				CFB906002A5E537F00146FB3 /* BirdDetailView.swift */,
-				CF6CCE512A5C3DC600B0C707 /* MoreInfo.swift */,
-				CFF37A2A28F5ED5100E967FB /* Bird.swift */,
-				CFBFB5072A1FD40D00DC81B0 /* UTType+Bird.swift */,
-				CFB906022A61786800146FB3 /* View+IfAvailable.swift */,
-				CFBFB50D2A1FE02600DC81B0 /* Bird+Transferable */,
-				CFD08A7E2A5388950018ED7E /* Bird+Providable */,
-				CFF37A2028F5ED1A00E967FB /* Assets.xcassets */,
-				CFF37A2228F5ED1A00E967FB /* Preview Content */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		CFF37A2228F5ED1A00E967FB /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				CFF37A2328F5ED1A00E967FB /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,6 +70,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CFD3F11A304A45C400492261 /* Sources */,
 			);
 			name = ILikeToMoveItExample;
 			packageProductDependencies = (
@@ -184,8 +123,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFF37A2428F5ED1A00E967FB /* Preview Assets.xcassets in Resources */,
-				CFF37A2128F5ED1A00E967FB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,19 +133,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFF37A1F28F5ED1A00E967FB /* ContentView.swift in Sources */,
-				CFE4F6362A6F6BB70012C336 /* DraggableView.swift in Sources */,
-				CFF37A2B28F5ED5100E967FB /* Bird.swift in Sources */,
-				CFFEB3212A537B1100C8C974 /* Bird+Providable.swift in Sources */,
-				CFBFB50A2A1FDDCD00DC81B0 /* BirdListTransferable.swift in Sources */,
-				CFBFB5082A1FD40D00DC81B0 /* UTType+Bird.swift in Sources */,
-				CFB906012A5E537F00146FB3 /* BirdDetailView.swift in Sources */,
-				CFBFB5062A1F951900DC81B0 /* Bird+Transferable.swift in Sources */,
-				CFF37A1D28F5ED1A00E967FB /* ILikeToMoveItExampleApp.swift in Sources */,
-				CF3F07F828F86847005D5E70 /* BirdListProvidable.swift in Sources */,
-				CF6CCE522A5C3DC600B0C707 /* MoreInfo.swift in Sources */,
-				CFB906032A61786800146FB3 /* View+IfAvailable.swift in Sources */,
-				CFE4F6342A6F6B8E0012C336 /* DraggableStringView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
