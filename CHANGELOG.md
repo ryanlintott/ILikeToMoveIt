@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0 - 2026-09-03
+## 0.3.0 - 2026-09-04
 
 ### Breaking Changes
 
@@ -26,3 +26,9 @@
 ### Fixed
 
 - Corrected the example app target's product name, which was still `DragAndDrop` after the rename.
+- Accessibility moves were held in a published property that was never cleared, because the write that cleared it happened inside the assignment that delivered the move. A view that resubscribed could then have the last move silently applied a second time.
+- `.up` and `.down` with a negative distance moved the item in the wrong direction and by the wrong amount, and a very large distance trapped on overflow. Distances are now clamped, so a negative distance moves nothing and a large one moves to the top or bottom.
+- `NSItemProvider.loadItem(_:completionHandler:)` never called its completion handler when the provider could not supply any of the item's readable types, leaving callers waiting indefinitely. It now completes with a `ProvidableError.unsupportedUTTypeIdentifier` error and is documented as always calling back exactly once.
+- A `Providable` item reported an unstarted `Progress` from a load that had already finished synchronously, leaving the system to believe the load was still in flight.
+- `UserActivityProvidable` set `targetContentIdentifier` to the activity type, so every item shared one content identifier and dragging out a second item could target the window already showing the first instead of opening a new one. It now identifies the item, and an activity that cannot be encoded is no longer returned in a state that fails later at decode time.
+- Readme corrections: `data(type:)` was shown as `async`, the `onDrop` example omitted the required `isTargeted` argument and so did not compile, the drop and insert examples mutated SwiftUI state off the main actor, and the move announcements described did not match the ones the package emits.
