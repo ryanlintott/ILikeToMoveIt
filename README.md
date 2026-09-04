@@ -72,10 +72,10 @@ Example: If you have a long list and want options to move items more than one st
 ```
 
 When the user triggers an accessibility action the following results are reported back via a UIAccessibility announcement:
-- "moved up", "moved down", or "not moved"
-- "by [number of spaces]" if moved by more than one space.
-- "above [item label]" if moved down and "below [item label]" if moved up. Only if a label keypath is was provided.
-- "At top" or "At bottom" if at the top or bottom of the list.
+- "Moved up.", "Moved down.", or "Not moved."
+- "Moved up by [number of spaces]." or "Moved down by [number of spaces]." if moved by more than one space.
+- "Above [item label]." if moved up and "Below [item label]." if moved down. Only if a label keypath was provided.
+- "Item at top." or "Item at bottom." if at the top or bottom of the list.
 
 ### `.accessibilityMoveableList`
 This modifier applies the changes from the move actions to the list and adjusts the accessibility focus to ensure it stays on the correct item.
@@ -102,7 +102,7 @@ extension Bird: Providable {
 
     static let readableTypes: [UTType] = [.bird, .plainText]
 
-    func data(type: UTType) async throws-> Data? {
+    func data(type: UTType) throws -> Data? {
         switch type {
         case .bird:
             return try JSONEncoder().encode(self)
@@ -137,22 +137,29 @@ Add a drag option to a view like this:
 
 And a drop option like this:
 ```swift
-.onDrop(of: Bird.readableTypes) { providers, location in
+.onDrop(of: Bird.readableTypes, isTargeted: $isTargeted) { providers, location in
   providers.loadItems(Bird.self) { bird, error in
     if let bird {
+      Task { @MainActor in
         birds.append(bird)
+      }
     }
   }
   return true
 }
 ```
 
+> [!IMPORTANT]
+> The completion handler is called on an arbitrary thread once per provider, so hop to the main actor before touching any SwiftUI state.
+
 And even an insert option like this:
 ```swift
 .onInsert(of: Bird.readableTypes) { index, providers in
   providers.loadItems(Bird.self) { bird, error in
     if let bird {
-      birds.insert(bird, at: index)
+      Task { @MainActor in
+        birds.insert(bird, at: index)
+      }
     }
   }
 }

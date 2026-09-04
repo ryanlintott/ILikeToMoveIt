@@ -155,7 +155,13 @@ struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
     func body(content: Content) -> some View {
         content
             .environmentObject(accessibilityMoveManager)
-            .onReceive(accessibilityMoveManager.$move) { newValue in
+            /// `onChange` rather than `onReceive(accessibilityMoveManager.$move)`. `@Published`
+            /// publishes from `willSet`, so an `onReceive` handler runs *inside* the assignment that
+            /// delivered the value and clearing `move` there is overwritten when that assignment
+            /// finishes. The stale move is then replayed to any subscriber that attaches later,
+            /// silently re-applying it. `onChange` runs from the view update instead, so this is an
+            /// ordinary synchronous write.
+            .onChange(of: accessibilityMoveManager.move) { newValue in
                 guard let newValue else { return }
                 move(newValue)
                 accessibilityMoveManager.move = nil

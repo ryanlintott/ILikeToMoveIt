@@ -56,19 +56,21 @@ public extension NSItemProvider {
     /// Loads a ``Providable`` item from this `NSItemProvider`
     /// - Parameters:
     ///   - itemType: Providable item type
-    ///   - completionHandler: Closure to run when an item is found or an error returned.
+    ///   - completionHandler: Closure to run when an item is found or an error returned. Always called exactly once. If this provider cannot supply any of the item type's readable types, it is called with a ``ProvidableError/unsupportedUTTypeIdentifier`` error.
     func loadItem<T: Providable>(_ itemType: T.Type, completionHandler: @escaping @Sendable (T?, Error?) -> Void) {
-        if canLoadObject(ofClass: ItemProvider<T>.self) {
-            _ = loadObject(ofClass: ItemProvider<T>.self) { itemProvider, error in
-                if let error {
-                    completionHandler(nil, error)
-                    return
-                }
-                if let itemProvider = itemProvider as? ItemProvider<T> {
-                    completionHandler(itemProvider.item, nil)
-                } else {
-                    completionHandler(nil, DecodingError.typeMismatch(ItemProvider<T>.self, .init(codingPath: [], debugDescription: "Type of NSItemProviderReading does not match expected object type.")))
-                }
+        guard canLoadObject(ofClass: ItemProvider<T>.self) else {
+            completionHandler(nil, ProvidableError.unsupportedUTTypeIdentifier)
+            return
+        }
+        _ = loadObject(ofClass: ItemProvider<T>.self) { itemProvider, error in
+            if let error {
+                completionHandler(nil, error)
+                return
+            }
+            if let itemProvider = itemProvider as? ItemProvider<T> {
+                completionHandler(itemProvider.item, nil)
+            } else {
+                completionHandler(nil, DecodingError.typeMismatch(ItemProvider<T>.self, .init(codingPath: [], debugDescription: "Type of NSItemProviderReading does not match expected object type.")))
             }
         }
     }
