@@ -21,14 +21,6 @@ public enum AccessibilityMoveAction: Identifiable, Hashable, Sendable {
     case toBottom
 
     public var id: Self { self }
-    
-    /// True if up or isTop
-    var isMovingUp: Bool {
-        switch self {
-        case .up(_), .toTop: true
-        case .down(_), .toBottom: false
-        }
-    }
 }
 
 public extension AccessibilityMoveAction {
@@ -180,9 +172,11 @@ struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
         
         switch action {
         case let .up(distance):
-            destinationIndex = items.index(itemIndex, offsetBy: -distance)
+            /// Clamping the distance keeps a negative or absurdly large value from producing a move in
+            /// the wrong direction or overflowing.
+            destinationIndex = itemIndex - min(max(0, distance), items.count)
         case let .down(distance):
-            destinationIndex = items.index(itemIndex, offsetBy: distance)
+            destinationIndex = itemIndex + min(max(0, distance), items.count)
         case .toTop:
             destinationIndex = items.startIndex
         case .toBottom:
@@ -228,7 +222,11 @@ struct AccessibilityMoveableListViewModifier<Item: Hashable>: ViewModifier {
         }
         
         if destinationIndex != itemIndex {
-            items.move(fromOffsets: [itemIndex], toOffset: destinationIndex + (action.isMovingUp ? 0 : 1))
+            /// `move(fromOffsets:toOffset:)` takes the offset the item is inserted *before*, which is one
+            /// past the destination when moving down. Derived from the indices rather than the action so
+            /// that a clamped or unusual distance can never disagree with the direction actually travelled.
+            let offset = destinationIndex < itemIndex ? destinationIndex : destinationIndex + 1
+            items.move(fromOffsets: [itemIndex], toOffset: offset)
             /// Even though accessibility focus appears to stay on the moved item, resetting it ensures the index and associated accessibility actions are also updated.
             accessibilityMoveManager.focus = thisItem
         }

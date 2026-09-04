@@ -32,13 +32,13 @@ public extension UserActivityProvidable {
     var userActivity: NSUserActivity? {
         if Self.activityType.isEmpty { return nil }
         guard
-            let data = try? JSONEncoder().encode(self)
+            let data = try? JSONEncoder().encode(self),
+            let contentIdentifier = String(data: data, encoding: .utf8)
         else { return nil }
         let activity = NSUserActivity(activityType: Self.activityType)
-        let string = String(data: data, encoding: .utf8)
         /// Stores the entire object in the persistent identifier
-        activity.persistentIdentifier = string
-        activity.targetContentIdentifier = Self.activityType
+        activity.persistentIdentifier = contentIdentifier
+        activity.targetContentIdentifier = contentIdentifier
         return activity
     }
 }

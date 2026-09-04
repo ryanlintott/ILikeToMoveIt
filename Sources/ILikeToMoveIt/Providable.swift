@@ -121,7 +121,9 @@ class ItemProvider<Item: Providable>: NSObject, NSItemProviderWriting, NSItemPro
             completionHandler(nil, error)
         }
         
-        return Progress(totalUnitCount: 100)
+        /// The data was produced synchronously above, so there is no progress to report. Returning an
+        /// unstarted `Progress` here would leave the system believing the load is still in flight.
+        return nil
     }
     
     static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
