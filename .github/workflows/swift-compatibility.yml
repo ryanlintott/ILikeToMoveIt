@@ -34,18 +34,18 @@ jobs:
           xcodebuild -version
           swift --version
 
-      - name: Select an iOS simulator
-        id: simulator
-        run: |
-          udid=$(/usr/bin/python3 .github/scripts/latest-iphone-simulator.py)
-          echo "Using simulator $udid"
-          echo "udid=$udid" >> "$GITHUB_OUTPUT"
-
-      - name: Test on iOS
+      # Only the library is built here. This job guards the minimum Swift
+      # version the package claims to support, which is a promise about the
+      # code consumers compile. The test target is exercised by the
+      # current-swift job instead. The package is iOS only, so this cannot be
+      # a plain `swift build` against the macOS host, and the runner image
+      # carries no iOS 18 simulator runtime for Xcode 16.0, so it cannot be a
+      # simulator test either.
+      - name: Build for iOS
         run: >-
-          xcodebuild test
+          xcodebuild build
           -scheme ILikeToMoveIt
-          -destination 'id=${{ steps.simulator.outputs.udid }}'
+          -destination 'generic/platform=iOS'
           CODE_SIGNING_ALLOWED=NO
 
   current-swift:
