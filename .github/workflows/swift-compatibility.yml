@@ -28,24 +28,27 @@ jobs:
         uses: actions/checkout@v7
 
       # Xcode 16.0, 16.1 and 16.2 all ship Swift 6.0.x, so any of them proves
-      # the same thing. Which of them has an iOS platform installed varies
-      # between runner images, so pick the first that can actually build for
-      # iOS rather than pinning one and breaking when the image changes.
-      - name: Select a Swift 6.0 Xcode with an iOS SDK
+      # the same thing. Some runner instances come up with no iOS platform
+      # installed for a given Xcode, so pick the first that can actually
+      # resolve an iOS destination rather than pinning one. `-showsdks` is not
+      # a usable test here: on a stripped runner it still lists iphoneos while
+      # the platform itself is missing, so ask for destinations instead.
+      - name: Select a Swift 6.0 Xcode that can build for iOS
         run: |
           for app in /Applications/Xcode_16.app /Applications/Xcode_16.1.app /Applications/Xcode_16.2.app; do
             developer_dir="$app/Contents/Developer"
             [ -d "$developer_dir" ] || continue
-            if DEVELOPER_DIR="$developer_dir" xcodebuild -showsdks | grep -q -e '-sdk iphoneos'; then
+            if DEVELOPER_DIR="$developer_dir" xcodebuild -showdestinations -scheme ILikeToMoveIt 2>/dev/null \
+              | grep 'name:Any iOS Device' | grep -qv 'error:'; then
               echo "Using $app"
               DEVELOPER_DIR="$developer_dir" xcodebuild -version
               DEVELOPER_DIR="$developer_dir" swift --version
               echo "DEVELOPER_DIR=$developer_dir" >> "$GITHUB_ENV"
               exit 0
             fi
-            echo "$app has no iOS SDK installed"
+            echo "$app has no installed iOS platform"
           done
-          echo "No Swift 6.0 Xcode on this runner has an iOS SDK installed." >&2
+          echo "No Swift 6.0 Xcode on this runner has an iOS platform installed." >&2
           exit 1
 
       # Only the library is built here. This job guards the minimum Swift
