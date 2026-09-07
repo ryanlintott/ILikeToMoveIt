@@ -22,25 +22,39 @@ jobs:
     name: Swift 6.0 compatibility
     runs-on: macos-15
     timeout-minutes: 20
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_16.0.app/Contents/Developer
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Report toolchain
+      # Xcode 16.0, 16.1 and 16.2 all ship Swift 6.0.x, so any of them proves
+      # the same thing. Which of them has an iOS platform installed varies
+      # between runner images, so pick the first that can actually build for
+      # iOS rather than pinning one and breaking when the image changes.
+      - name: Select a Swift 6.0 Xcode with an iOS SDK
         run: |
-          xcodebuild -version
-          swift --version
+          for app in /Applications/Xcode_16.app /Applications/Xcode_16.1.app /Applications/Xcode_16.2.app; do
+            developer_dir="$app/Contents/Developer"
+            [ -d "$developer_dir" ] || continue
+            if DEVELOPER_DIR="$developer_dir" xcodebuild -showsdks | grep -q -e '-sdk iphoneos'; then
+              echo "Using $app"
+              DEVELOPER_DIR="$developer_dir" xcodebuild -version
+              DEVELOPER_DIR="$developer_dir" swift --version
+              echo "DEVELOPER_DIR=$developer_dir" >> "$GITHUB_ENV"
+              exit 0
+            fi
+            echo "$app has no iOS SDK installed"
+          done
+          echo "No Swift 6.0 Xcode on this runner has an iOS SDK installed." >&2
+          exit 1
 
       # Only the library is built here. This job guards the minimum Swift
       # version the package claims to support, which is a promise about the
       # code consumers compile. The test target is exercised by the
       # current-swift job instead. The package is iOS only, so this cannot be
-      # a plain `swift build` against the macOS host, and the runner image
-      # carries no iOS 18 simulator runtime for Xcode 16.0, so it cannot be a
-      # simulator test either.
+      # a plain `swift build` against the macOS host, and no runner image
+      # carries an iOS 18.0 simulator runtime for these Xcodes, so it cannot
+      # be a simulator test either.
       - name: Build for iOS
         run: >-
           xcodebuild build
@@ -55,7 +69,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Report toolchain
         run: |
